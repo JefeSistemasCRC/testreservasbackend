@@ -6,6 +6,10 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { StandardResponseInterceptor } from '@shared/interceptors/standard-response.interceptor';
 import { LoggerMiddleware } from '@shared/middlewares/logger.middleware';
 
+import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
+import { ReservasModule } from './reservas/reservas.module';
+import { EspaciosModule } from './espacios/espacios.module';
 import constants from './constants';
 
 @Module({
@@ -13,13 +17,15 @@ import constants from './constants';
     ConfigModule.forRoot({
       envFilePath: ['.env'],
     }),
-    MongooseModule.forRoot(constants.MONGO_STRING_CONNECTION, {
-      dbName: constants.MONGO_DB_NAME,
-    }),
+    MongooseModule.forRoot(constants.MONGO_STRING_CONNECTION),
     CacheModule.register({
       isGlobal: true,
       store: 'splittier',
     }),
+    UserModule,
+    AuthModule,
+    ReservasModule,
+    EspaciosModule,
   ],
   controllers: [],
   providers: [
